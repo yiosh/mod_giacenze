@@ -4,7 +4,10 @@ require_once('../../fl_core/autentication.php');
 include('fl_settings.php'); // Variabili Modulo 
 
 
-include("../../fl_inc/headers.php");?>
+include("../../fl_inc/headers.php");
+include("script.php");
+include("style.php");
+?>
 
 
 

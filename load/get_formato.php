@@ -1,13 +1,13 @@
 
 <?php
-  // require_once('../../fl_core/autentication.php');
-  $host = "localhost";
-  $login = "root";
-  $pwd = "";
-  $db = "banquet_lacavallerizza";
+  require_once('../../../fl_core/autentication.php');
+  // $host = "localhost";
+  // $login = "root";
+  // $pwd = "";
+  // $db = "banquet_lacavallerizza";
 
   $conn = mysqli_connect($host,$login,$pwd,$db);
-
+  // CONNECT
   // Check connection
   if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -17,10 +17,10 @@
   $descrizione = $_POST['descrizione'];
 
   if (isset($codice)) {
-    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE codice_fornitore='$codice'";
+    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE codice_fornitore LIKE '%$codice%'";
     $result = mysqli_query($conn, $sql);
   } elseif (isset($descrizione)) {
-    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE formato='$descrizione'";
+    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE formato LIKE '%$descrizione%'";
     $result = mysqli_query($conn, $sql);
   }
 

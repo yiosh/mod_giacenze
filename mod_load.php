@@ -9,21 +9,15 @@ $multi_order = (isset($_GET['multi_order'])) ? check($_GET['multi_order']) : 0;
 
 $module_title = "Carica DDT n. ".check($parent_id);
 
-// <div id="content-confirm" class="modal">
-//         <div class="modal-content modal-confirm">
-    
-//         </div>
-//       </div>
-// <label for="">Codice/Descripzione</label>
-// <input type="text" name="" id="search">
-
 require_once("../../fl_inc/headers.php"); 
-
+include("script.php");
+include("fontawesome.php");
+include("style.php");
 ?>
 
-<?php if(!isset($_GET['external'])) include('../../fl_inc/testata.php'); ?>
-<?php if(!isset($_GET['external'])) include('../../fl_inc/menu.php'); ?>
-<?php if(!isset($_GET['external'])) include('../../fl_inc/module_menu.php'); ?>
+<?php if(!isset($_GET['external'])) include_once('../../fl_inc/testata.php'); ?>
+<?php if(!isset($_GET['external'])) include_once('../../fl_inc/menu.php'); ?>
+<?php if(!isset($_GET['external'])) include_once('../../fl_inc/module_menu.php'); ?>
 
 <div class="container">
 <div class="aggiungi">
@@ -49,7 +43,7 @@ require_once("../../fl_inc/headers.php");
           <td class="codice"><input class="codice-field" type="text" name="codice"></td>
           <td class="descrizione"><input class="descrizione-field" type="text" name="descrizione"></td>
           <td class="um">
-            <select class="um-field select2" name="" id="">
+            <select class="um-field " name="" id="">
               <option value="KG">KG</option>
               <option value="LT">LT</option>
               <option value="PZ">PZ</option>
@@ -71,4 +65,4 @@ require_once("../../fl_inc/headers.php");
 
   </form>
 </div>
-<?php include("../../fl_inc/footer.php"); ?>
+<?php include_once("../../fl_inc/footer.php"); ?>

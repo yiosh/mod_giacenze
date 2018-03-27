@@ -1,9 +1,13 @@
 <?php
-  // require_once('../../fl_core/autentication.php');
-  $host = "localhost";
-  $login = "root";
-  $pwd = "";
-  $db = "banquet_lacavallerizza";
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+  require_once('../../../fl_core/autentication.php');
+  // $host = "localhost";
+  // $login = "root";
+  // $pwd = "";
+  // $db = "banquet_lacavallerizza";
 
   $conn = mysqli_connect($host,$login,$pwd,$db);
 
