@@ -32,8 +32,7 @@
     $module_menu = '
     <li><a href="../mod_materieprime/">Anagrafica</a></li>
     <li><a href="../mod_giacenze/">Giacenza</a></li>
-    <li><a href="../mod_giacenze/intro.php">Movimenti</a></li>
-    <li><a href="mod_load.php?parent_id=1&order_id=1&multi_order=0#">Carica</a></li>'; //Menu del modulo
+    <li><a href="../mod_giacenze/intro.php">Movimenti</a></li>'; //Menu del modulo
 
 
 	if(isset($_GET['data_da']) && check($_GET['data_da']) != "" && check($_GET['data_a']) != "") { 
