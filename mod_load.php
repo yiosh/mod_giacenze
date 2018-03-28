@@ -10,12 +10,9 @@ $multi_order = (isset($_GET['multi_order'])) ? check($_GET['multi_order']) : 0;
 $dettagli = check($_GET['dettagli']);
 $module_title = "Carica DDT n. ".$dettagli;
 
-require_once("../../fl_inc/headers.php"); 
-// include("script.php");
-// include("fontawesome.php");
-// include("style.php");
+require_once("../../fl_inc/headers.php");
 ?>
-<!-- <script src="js/fontawesome-all.min.js"></script> -->
+
 <script src="js/script.js"></script>
 <link rel="stylesheet" href="css/style.css">
 
@@ -54,6 +51,8 @@ require_once("../../fl_inc/headers.php");
               <option value="KG">KG</option>
               <option value="LT">LT</option>
               <option value="PZ">PZ</option>
+              <option value="BT">BT</option>
+							<option value="CT">CT</option>
             </select>
           </td>
           <td class="qty"><input class="qty-field" type="number" step="1" min="0" name="qty[]" value="1"></td>

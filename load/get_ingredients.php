@@ -16,7 +16,10 @@ error_reporting(E_ALL);
     die("Connection failed: " . mysqli_connect_error());
   }
 
-  $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto";
+  $sql = "SELECT a.id, a.codice_fornitore, b.descrizione,a.formato, a.unita_di_misura_formato, a.valore_di_conversione, a.prezzo_unitario, a.iva
+  FROM fl_listino_acquisto a
+  LEFT JOIN fl_materieprime b ON a.id_materia = b.id
+  WHERE a.id >1";
   $result = mysqli_query($conn, $sql);
  
 
@@ -27,7 +30,7 @@ error_reporting(E_ALL);
     }
     echo json_encode($json);
   } else {
-    echo "0 resultati";
+    echo "0 risultati";
   }
 
   mysqli_close($conn);
