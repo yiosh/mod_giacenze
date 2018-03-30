@@ -34,7 +34,8 @@ $(document).ready(function() {
           let ingredient = {
             id: data.id,
             codice_fornitore: data.codice_fornitore.toUpperCase(),
-            formato: data.formato.toUpperCase(),
+            // descrizione: data.descrizione,
+            formato: data.descrizione + " " + data.formato.toUpperCase(),
             unita_di_misura_formato: data.unita_di_misura_formato,
             valore_di_conversione: data.valore_di_conversione,
             prezzo_unitario: data.prezzo_unitario,
@@ -84,10 +85,12 @@ $(document).ready(function() {
         });
 
         const results = {
+
           addRow() {
             datiTableLength++;
+            const rowId = `r${datiTableLength}`;
             $("#dati tbody").append(`
-								<tr id="r${datiTableLength}">
+								<tr id="${rowId}">
 									<td class="codice"><input class="codice-field" type="text" name="codice[]" placeholder="Inserisci codice">
 									<input class="id-field" type="hidden" name="id[]"></td>
 									<td class="descrizione"><input class="descrizione-field" type="text" name="descrizione[]" placeholder="Inserisci Descrizione"></td>
@@ -98,13 +101,14 @@ $(document).ready(function() {
 											<option value="PZ">PZ</option>
 											<option value="BT">BT</option>
 											<option value="CT">CT</option>
+                      <option value="KP">KP</option>
 										</select>
 									</td>
-									<td class="qty"><input class="qty-field" type="number" step="1" min="0" name="qty[]" value="1"></td>
-									<td class="prezzo"><input class="prezzo-field" step="0.01" min="0" type="number" name="prezzo[]" value="0.00"></td>
-									<td class="sc"><input class="sc-field" type="text" name="sc[]" value="0"></td>
-									<td class="iva"><input class="iva-field" type="text" name="iva[]" value="22"></td>
-									<td class="importo"><input class="importo-field" step="0.01" min="0" type="number" name="importo[]" readonly></td>
+									<td class="qty"><input class="qty-field" type="number" step="0.001" name="qty[]" value="1"></td>
+									<td class="prezzo"><input class="prezzo-field" step="0.001" type="number" name="prezzo[]" value="0.00"></td>
+									<td class="sc"><input class="sc-field" type="number" step="0.001" name="sc[]" value="0.00"></td>
+									<td class="iva"><input class="iva-field" type="number" step="0.001" name="iva[]" value="0.00"></td>
+									<td class="importo"><input class="importo-field" step="0.001" type="number" name="importo[]" value="0.00" readonly></td>
 									<th class="delete-row"></th>
 								</tr>
 							`);
@@ -112,9 +116,9 @@ $(document).ready(function() {
               { scrollTop: $(".dati-wrapper").height() },
               "slow"
             );
-
             // console.log(allIngredients);
           },
+
           resultsHeader(rowId) {
             $(".results").remove();
             $(`#${rowId}`).after(
@@ -137,6 +141,7 @@ $(document).ready(function() {
 
 								`);
           },
+
           loopThroughAllIngredients(codiceEl, descrizioneEl) {
             let inputFieldEl;
             let ingredientField;
@@ -172,6 +177,7 @@ $(document).ready(function() {
               }
             });
           },
+          
           closeResults() {
             window.onclick = function(e) {
               const codiceEl = $(`.codice-field`);
@@ -196,9 +202,13 @@ $(document).ready(function() {
               }
             };
           },
+          
           fillInputs(rowId) {
             $("[id^=row-]").click(function(e) {
               let resultId = e.target.parentElement.id;
+              if (e.target.id != "") {
+                resultId = e.target.id;
+              }
               const idFieldEl = $(`#${rowId} .id-field`);
               const ingredientIndex = resultId.replace(/[^0-9]/g, "");
               const ingredientSelected = allIngredients[ingredientIndex];
@@ -233,10 +243,10 @@ $(document).ready(function() {
               // ADD A ROW AND FOCUS ON LAST ROW CREATED CODICE
               results.addRow();
               $(`#r${datiTableLength} .codice-field`).focus();
-              selectAll();
             });
             this.closeResults();
           },
+
           inputFieldConditionals(
             inputName,
             rowId,
@@ -272,6 +282,7 @@ $(document).ready(function() {
               }
             }
           },
+
           showResults(rowId, inputName, e) {
             const codiceEl = $(`#${rowId} .codice-field`);
             const descrizioneEl = $(`#${rowId} .descrizione-field`);
@@ -291,22 +302,33 @@ $(document).ready(function() {
         };
 
         // Select all value in an input value when clicked
-        function selectAll() {
+        /* function selectAll() {
           $(`form input[type="text"]`).click(function(e) {
             this.select();
           });
           $(`form input[type="number"]`).click(function(e) {
             this.select();
           });
-        }
+        }*/
 
         // Add row
         $("#aggiungi").click(function() {
           results.addRow();
-          console.log($(`#r${datiTableLength} .codice-field`));
+          // console.log($(`#r${datiTableLength} .codice-field`));
           $(`#r${datiTableLength} .codice-field`).focus();
           // datiTableLength++;
         });
+
+        $().on('keydown', 'li', function(e) {
+          $this = $(this);
+          if (e.keyCode == 40) {        
+            $this.next().focus();
+            return false;
+          } else if (e.keyCode == 38) {        
+            $this.prev().focus();
+            return false;
+          }
+        }).find('li').first().focus();
 
         // Results dropdown with codice field
         $(".dati-wrapper").keyup(function(e) {
@@ -314,6 +336,7 @@ $(document).ready(function() {
           const inputName = e.target.name;
           results.showResults(rowId, inputName, e);
         });
+
       } else {
         console.log(response);
       }

@@ -22,9 +22,7 @@
 }
 
 #aggiungi {
-
   text-align: right;
-
 }
 
 /* input[type="submit"] {
@@ -88,6 +86,7 @@
 }
 
 .row-result:first-child {
+  padding: 0 1em;
   background-color: rgba(187, 184, 184, 0.952);
 }
 
@@ -110,4 +109,12 @@
 
 .um {
   width: 5em;
+}
+
+.numero-field input {
+  width: 80px !important;
+}
+
+.highlight {
+  background-color: #3DA042
 }
