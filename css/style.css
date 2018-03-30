@@ -6,6 +6,18 @@
   height: 100%;
 }
 
+/* .descrizione {
+  width: 80em;
+} */
+
+td.codice {
+  width: 10em;
+}
+
+td.numero-field {
+  width: 8em;
+}
+
 .codice-field,
 .descrizione-field {
   text-transform: uppercase;
@@ -51,7 +63,7 @@
   width: 90%;
 }
 
-.results {
+#results-container {
   background-color: #fff;
   position: absolute;
   width: 95%;
@@ -62,10 +74,10 @@
 .row-result {
   padding: 1em;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 0.5em;
   grid-auto-flow: column;
   text-align: left;
-  width: 100%;
   margin: 0;
 }
 
@@ -74,7 +86,11 @@
   margin: 0;
 }
 
-.row-result:hover:not(:first-child) {
+li.row-result:hover {
+  background-color: wheat;
+}
+
+li:focus {
   background-color: wheat;
 }
 
@@ -82,7 +98,7 @@
   background-color: wheat;
 }
 
-.row-result:first-child {
+div.row-result {
   padding: 0 1em;
   background-color: rgba(187, 184, 184, 0.952);
 }
@@ -91,7 +107,7 @@
   margin-top: 0;
   margin-bottom: 0;
   height: 100%;
-  width: 100%;
+  width: 5em;
 }
 
 #results {
@@ -108,10 +124,32 @@
   width: 5em;
 }
 
-.numero-field input {
-  width: 80px !important;
-}
+/* .numero-field {
+  min-width: 3em !important;
+  max-width: 5em !important;
+} */
 
 .highlight {
   background-color: #3da042;
+}
+
+.aggiungi {
+  cursor: pointer;
+  display: flex;
+  margin: 1em auto;
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  font-size: 1em;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.aggiungi label {
+  font-size: 2em;
+}
+
+p.descrizione {
+  width: 100%;
 }

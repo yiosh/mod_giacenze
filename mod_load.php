@@ -23,9 +23,6 @@ require_once("../../fl_inc/headers.php");
 
 
 <div class="container" lang="en-US">
-     <div class="aggiungi msg green">
-      <label id="aggiungi" for=""><i  title="Aggiungi riga" class="fa fa-plus-circle"></i> Aggiungi</label>
-      </div>
 
   <form name="" method="POST" class="" action="mod_opera.php">
     <div class="dati-wrapper">
@@ -73,6 +70,9 @@ require_once("../../fl_inc/headers.php");
     <input type="hidden" name="doc_vendita" value="<?php echo $parent_id; ?>">
     <input type="hidden" name="ordine_id" value="<?php echo $order_id; ?>">
     <input type="hidden" name="multi_order" value="0">
+    <div class="aggiungi msg green">
+      <label id="aggiungi" for=""><i  title="Aggiungi riga" class="fa fa-plus"></i></label>
+    </div>
     <input id="submit" type="submit" value="Carica Voci" class="salva button">
 
   </form>
