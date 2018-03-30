@@ -17,6 +17,7 @@ $(document).ready(function() {
     }
   }
 
+  const formEl = $(".ajaxForm");
   // Fetch all ingredients
   $.ajax({
     type: "GET",
@@ -25,12 +26,16 @@ $(document).ready(function() {
       if (response != "0 resultati") {
         // Store ingredients in an array called allIngredients
         let resultAll = JSON.parse(response);
+        // $.each(resultAll, function(index, data) {
+        //   console.log(data.codice_fornitore);
+        // });
 
         let allIngredients = resultAll.map(data => {
           let ingredient = {
             id: data.id,
-            codice_fornitore: data.codice_fornitore.toUpperCase(),
-            formato: data.descrizione + " " + data.formato.toUpperCase(),
+            codice_fornitore: data.codice_fornitore,
+            // descrizione: data.descrizione,
+            formato: data.descrizione + " " + data.formato,
             unita_di_misura_formato: data.unita_di_misura_formato,
             valore_di_conversione: data.valore_di_conversione,
             prezzo_unitario: data.prezzo_unitario,
@@ -41,6 +46,12 @@ $(document).ready(function() {
 
         console.log("Ingredients: " + allIngredients.length);
         console.log(allIngredients);
+
+        // Placeholder for submitting form
+        /*formEl.submit(function(ev) {
+					ev.preventDefault();
+					alert("Clicked");
+				});*/
 
         // Length of the table
         let datiTableLength = document.getElementById("dati").rows.length - 1;
@@ -104,6 +115,7 @@ $(document).ready(function() {
               { scrollTop: $(".dati-wrapper").height() },
               "slow"
             );
+            // console.log(allIngredients);
           },
 
           resultsHeader(rowId) {
@@ -113,18 +125,20 @@ $(document).ready(function() {
             );
             $("#results").append(`
 
-              <li class="row-result" id="results-header">
-                <h3 class="codice_descrizione">Codice</h3>
-                <h3 class="descrizione">Descrizione</h3>
-                <h3 class="um">UM</h3>
-                <h3 class="qty">QTY</h3>
-                <h3 class="prezzo">Prezzo</h3>
-                <h3 class="sc">Sc. %</h3>
-                <h3 class="iva">IVA</h3>
-                <h3 class="importo">Importo</h3>
-              </li>
+                <li class="row-result" id="results-header">
+									<h3 class="codice_descrizione">Codice</h3>
+									<h3 class="descrizione">Descrizione</h3>
 
-						`);
+									<h3 class="um">UM</h3>
+
+									<h3 class="qty">QTY</h3>
+									<h3 class="prezzo">Prezzo</h3>
+									<h3 class="sc">Sc. %</h3>
+									<h3 class="iva">IVA</h3>
+									<h3 class="importo">Importo</h3>
+								</li>
+
+								`);
           },
 
           loopThroughAllIngredients(codiceEl, descrizioneEl) {
@@ -139,7 +153,15 @@ $(document).ready(function() {
               ingredientField = "formato";
             }
             $.each(allIngredients, function(index, ingredient) {
-              if (ingredient[ingredientField].includes(inputFieldEl.val())) {
+              if (
+                ingredient[ingredientField].includes(inputFieldEl.val()) ||
+                ingredient[ingredientField].includes(
+                  inputFieldEl.val().toLowerCase()
+                ) ||
+                ingredient[ingredientField].includes(
+                  inputFieldEl.val().toUpperCase()
+                )
+              ) {
                 const prezzoUnitario = ingredient.prezzo_unitario;
                 const unita_di_misura_formato = ingredient.prezzo_unitario;
                 const importoResult = Number(
@@ -225,7 +247,7 @@ $(document).ready(function() {
               umEl.prop("disabled", true);
               importoEl.val(Number(importoResult).toFixed(2));
 
-              // Add a row and focus on codice field
+              // ADD A ROW AND FOCUS ON LAST ROW CREATED CODICE
               results.addRow();
               $(`#r${datiTableLength} .codice-field`).focus();
             });
@@ -242,7 +264,7 @@ $(document).ready(function() {
               if (codiceEl.val() != "") {
                 if (codiceEl.val().length > 2) {
                   let inputfieldVal = $(`#${rowId} .codice-field`).val();
-                  $(`#${rowId} .codice-field`).val(inputfieldVal.toUpperCase());
+                  // $(`#${rowId} .codice-field`).val(inputfieldVal.toUpperCase());
                   this.resultsHeader(rowId);
                   this.loopThroughAllIngredients(codiceEl, "");
                   this.fillInputs(rowId);
@@ -255,9 +277,9 @@ $(document).ready(function() {
               if (descrizioneEl.val() != "") {
                 if (descrizioneEl.val().length > 2) {
                   let inputfieldVal = $(`#${rowId} .descrizione-field`).val();
-                  $(`#${rowId} .descrizione-field`).val(
-                    inputfieldVal.toUpperCase()
-                  );
+                  // $(`#${rowId} .descrizione-field`).val(
+                  //   inputfieldVal.toUpperCase()
+                  // );
                   this.resultsHeader(rowId);
                   this.loopThroughAllIngredients("", descrizioneEl);
                   this.fillInputs(rowId);
@@ -286,10 +308,22 @@ $(document).ready(function() {
           }
         };
 
+        // Select all value in an input value when clicked
+        /* function selectAll() {
+          $(`form input[type="text"]`).click(function(e) {
+            this.select();
+          });
+          $(`form input[type="number"]`).click(function(e) {
+            this.select();
+          });
+        }*/
+
         // Add row
         $("#aggiungi").click(function() {
           results.addRow();
+          // console.log($(`#r${datiTableLength} .codice-field`));
           $(`#r${datiTableLength} .codice-field`).focus();
+          // datiTableLength++;
         });
 
         $()

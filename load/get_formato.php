@@ -17,10 +17,10 @@
   $descrizione = $_POST['descrizione'];
 
   if (isset($codice)) {
-    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE codice_fornitore LIKE '%$codice%'";
+    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE LOWER(codice_fornitore) LIKE '%$codice%' OR codice_fornitore LIKE '%$codice%'";
     $result = mysqli_query($conn, $sql);
   } elseif (isset($descrizione)) {
-    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE formato LIKE '%$descrizione%'";
+    $sql = "SELECT id, codice_fornitore, formato, unita_di_misura_formato, valore_di_conversione, prezzo_unitario, iva FROM fl_listino_acquisto WHERE LOWER(formato) LIKE '%$descrizione%' OR formato LIKE '%$descrizione%'";
     $result = mysqli_query($conn, $sql);
   }
 

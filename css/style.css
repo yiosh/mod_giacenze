@@ -6,7 +6,9 @@
   height: 100%;
 }
 
-.dati {
+.codice-field,
+.descrizione-field {
+  text-transform: uppercase;
 }
 
 .dati-wrapper {
@@ -24,11 +26,6 @@
 #aggiungi {
   text-align: right;
 }
-
-/* input[type="submit"] {
-  margin-left: 1.9em;
-  margin-bottom: 2em;
-} */
 
 /* MODAL */
 .modal {
@@ -116,5 +113,5 @@
 }
 
 .highlight {
-  background-color: #3DA042
+  background-color: #3da042;
 }
