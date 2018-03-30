@@ -17,7 +17,6 @@ $(document).ready(function() {
     }
   }
 
-  const formEl = $(".ajaxForm");
   // Fetch all ingredients
   $.ajax({
     type: "GET",
@@ -26,15 +25,11 @@ $(document).ready(function() {
       if (response != "0 resultati") {
         // Store ingredients in an array called allIngredients
         let resultAll = JSON.parse(response);
-        // $.each(resultAll, function(index, data) {
-        //   console.log(data.codice_fornitore);
-        // });
 
         let allIngredients = resultAll.map(data => {
           let ingredient = {
             id: data.id,
             codice_fornitore: data.codice_fornitore.toUpperCase(),
-            // descrizione: data.descrizione,
             formato: data.descrizione + " " + data.formato.toUpperCase(),
             unita_di_misura_formato: data.unita_di_misura_formato,
             valore_di_conversione: data.valore_di_conversione,
@@ -46,12 +41,6 @@ $(document).ready(function() {
 
         console.log("Ingredients: " + allIngredients.length);
         console.log(allIngredients);
-
-        // Placeholder for submitting form
-        /*formEl.submit(function(ev) {
-					ev.preventDefault();
-					alert("Clicked");
-				});*/
 
         // Length of the table
         let datiTableLength = document.getElementById("dati").rows.length - 1;
@@ -85,7 +74,6 @@ $(document).ready(function() {
         });
 
         const results = {
-
           addRow() {
             datiTableLength++;
             const rowId = `r${datiTableLength}`;
@@ -116,7 +104,6 @@ $(document).ready(function() {
               { scrollTop: $(".dati-wrapper").height() },
               "slow"
             );
-            // console.log(allIngredients);
           },
 
           resultsHeader(rowId) {
@@ -126,20 +113,18 @@ $(document).ready(function() {
             );
             $("#results").append(`
 
-                <li class="row-result" id="results-header">
-									<h3 class="codice_descrizione">Codice</h3>
-									<h3 class="descrizione">Descrizione</h3>
+              <li class="row-result" id="results-header">
+                <h3 class="codice_descrizione">Codice</h3>
+                <h3 class="descrizione">Descrizione</h3>
+                <h3 class="um">UM</h3>
+                <h3 class="qty">QTY</h3>
+                <h3 class="prezzo">Prezzo</h3>
+                <h3 class="sc">Sc. %</h3>
+                <h3 class="iva">IVA</h3>
+                <h3 class="importo">Importo</h3>
+              </li>
 
-									<h3 class="um">UM</h3>
-
-									<h3 class="qty">QTY</h3>
-									<h3 class="prezzo">Prezzo</h3>
-									<h3 class="sc">Sc. %</h3>
-									<h3 class="iva">IVA</h3>
-									<h3 class="importo">Importo</h3>
-								</li>
-
-								`);
+						`);
           },
 
           loopThroughAllIngredients(codiceEl, descrizioneEl) {
@@ -177,7 +162,7 @@ $(document).ready(function() {
               }
             });
           },
-          
+
           closeResults() {
             window.onclick = function(e) {
               const codiceEl = $(`.codice-field`);
@@ -202,7 +187,7 @@ $(document).ready(function() {
               }
             };
           },
-          
+
           fillInputs(rowId) {
             $("[id^=row-]").click(function(e) {
               let resultId = e.target.parentElement.id;
@@ -240,7 +225,7 @@ $(document).ready(function() {
               umEl.prop("disabled", true);
               importoEl.val(Number(importoResult).toFixed(2));
 
-              // ADD A ROW AND FOCUS ON LAST ROW CREATED CODICE
+              // Add a row and focus on codice field
               results.addRow();
               $(`#r${datiTableLength} .codice-field`).focus();
             });
@@ -301,34 +286,26 @@ $(document).ready(function() {
           }
         };
 
-        // Select all value in an input value when clicked
-        /* function selectAll() {
-          $(`form input[type="text"]`).click(function(e) {
-            this.select();
-          });
-          $(`form input[type="number"]`).click(function(e) {
-            this.select();
-          });
-        }*/
-
         // Add row
         $("#aggiungi").click(function() {
           results.addRow();
-          // console.log($(`#r${datiTableLength} .codice-field`));
           $(`#r${datiTableLength} .codice-field`).focus();
-          // datiTableLength++;
         });
 
-        $().on('keydown', 'li', function(e) {
-          $this = $(this);
-          if (e.keyCode == 40) {        
-            $this.next().focus();
-            return false;
-          } else if (e.keyCode == 38) {        
-            $this.prev().focus();
-            return false;
-          }
-        }).find('li').first().focus();
+        $()
+          .on("keydown", "li", function(e) {
+            $this = $(this);
+            if (e.keyCode == 40) {
+              $this.next().focus();
+              return false;
+            } else if (e.keyCode == 38) {
+              $this.prev().focus();
+              return false;
+            }
+          })
+          .find("li")
+          .first()
+          .focus();
 
         // Results dropdown with codice field
         $(".dati-wrapper").keyup(function(e) {
@@ -336,7 +313,6 @@ $(document).ready(function() {
           const inputName = e.target.name;
           results.showResults(rowId, inputName, e);
         });
-
       } else {
         console.log(response);
       }
