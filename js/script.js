@@ -188,7 +188,10 @@ $(document).ready(function() {
 
             // When the down arrow key is pressed it focus on first result
             $("div.dati-wrapper").keydown(function(e) {
-              if (e.keyCode == 40) {
+              if (
+                (e.keyCode == 40 && e.target.name == "descrizione[]") ||
+                (e.keyCode == 40 && e.target.name == "codice[]")
+              ) {
                 $("div#results-container")
                   .on("focus", "li", function() {
                     $this = $(this);
@@ -200,7 +203,7 @@ $(document).ready(function() {
                   .find("li")
                   .first()
                   .focus();
-                e.preventDefault();
+                return false;
               }
             });
 
