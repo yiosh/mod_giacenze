@@ -26,10 +26,6 @@ $(document).ready(function() {
       if (response != "0 resultati") {
         // Store ingredients in an array called allIngredients
         let resultAll = JSON.parse(response);
-        // $.each(resultAll, function(index, data) {
-        //   console.log(data.codice_fornitore);
-        // });
-
         let allIngredients = resultAll.map(data => {
           let ingredient = {
             id: data.id,
@@ -44,14 +40,8 @@ $(document).ready(function() {
           return ingredient;
         });
 
-        console.log("Ingredients: " + allIngredients.length);
+        console.log("Ingredienti: " + allIngredients.length);
         console.log(allIngredients);
-
-        // Placeholder for submitting form
-        /*formEl.submit(function(ev) {
-					ev.preventDefault();
-					alert("Clicked");
-				});*/
 
         // Length of the table
         let datiTableLength = document.getElementById("dati").rows.length - 1;
@@ -103,11 +93,11 @@ $(document).ready(function() {
                       <option value="KP">KP</option>
 										</select>
 									</td>
-									<td class="qty numero-field"><input class="qty-field" type="number" step="0.001" name="qty[]" value="1"></td>
-									<td class="prezzo numero-field"><input class="prezzo-field" step="0.001" type="number" name="prezzo[]" value="0.00"></td>
-									<td class="sc numero-field"><input class="sc-field" type="number" step="0.001" name="sc[]" value="0.00"></td>
-									<td class="iva numero-field"><input class="iva-field" type="number" step="0.001" name="iva[]" value="0.00"></td>
-									<td class="importo numero-field"><input class="importo-field" step="0.001" type="number" name="importo[]" value="0.00" readonly></td>
+									<td class="qty numero-field"><input class="qty-field" type="number" step="any" name="qty[]" value="1"></td>
+									<td class="prezzo numero-field"><input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00"></td>
+									<td class="sc numero-field"><input class="sc-field" type="number" step="any" name="sc[]" value="0.00"></td>
+									<td class="iva numero-field"><input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00"></td>
+									<td class="importo numero-field"><input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly></td>
 									<th class="delete-row"></th>
 								</tr>
 							`);
@@ -115,7 +105,6 @@ $(document).ready(function() {
               { scrollTop: $(".dati-wrapper").height() },
               "slow"
             );
-            // console.log(allIngredients);
           },
 
           resultsHeader(rowId) {
@@ -144,6 +133,7 @@ $(document).ready(function() {
           loopThroughAllIngredients(codiceEl, descrizioneEl, rowId) {
             let inputFieldEl;
             let ingredientField;
+
             if (codiceEl != "") {
               inputFieldEl = codiceEl;
               ingredientField = "codice_fornitore";
@@ -152,6 +142,7 @@ $(document).ready(function() {
               inputFieldEl = descrizioneEl;
               ingredientField = "formato";
             }
+
             let counter = $("#results").length;
             $.each(allIngredients, function(index, ingredient) {
               if (
@@ -187,21 +178,44 @@ $(document).ready(function() {
               }
             });
 
+            if (counter <= 1) {
+              $("#results").append(`
+              <li class="row-result" style="cursor:pointer;">
+                <p class="result">0 risultati</p>
+              </li>
+              `);
+            }
+
+            // When the down arrow key is pressed it focus on first result
+            $("div.dati-wrapper").keydown(function(e) {
+              if (e.keyCode == 40) {
+                $("div#results-container")
+                  .on("focus", "li", function() {
+                    $this = $(this);
+                    $this
+                      .addClass("selected")
+                      .siblings()
+                      .removeClass("selected");
+                  })
+                  .find("li")
+                  .first()
+                  .focus();
+                e.preventDefault();
+              }
+            });
+
+            // When further keydowns it fires different events
             $("div#results-container")
               .on("focus", "li", function() {
                 $this = $(this);
-                console.log($this);
                 $this
                   .addClass("selected")
                   .siblings()
                   .removeClass("selected");
-                // $this.closest('div.container').scrollTop($this.index() * $this.outerHeight());
               })
               .on("keydown", "li", function(e) {
-                console.log(rowId);
                 $this = $(this);
-                // const index = $this[0].id.replace(/[^0-9]/g, "");
-                // console.log(index);
+                // If enter is pressed fill input field with focused element
                 if (e.keyCode == 13) {
                   const idFieldEl = $(`#${rowId} .id-field`);
                   const ingredientIndex = $this[0].id.replace(/[^0-9]/g, "");
@@ -237,21 +251,22 @@ $(document).ready(function() {
                   // ADD A ROW AND FOCUS ON LAST ROW CREATED CODICE
                   results.addRow();
                   $(`#r${datiTableLength} .codice-field`).focus();
-
+                  console.log(
+                    `Ingrediente ${ingredientSelected.formato} aggiunto`
+                  );
                   $("#results-container").remove();
 
                   return false;
+                  // If down arrow key is pressed focus on the next
                 } else if (e.keyCode == 40) {
                   $this.next().focus();
                   return false;
+                  // if up arrow key is pressed focus on previous
                 } else if (e.keyCode == 38) {
                   $this.prev().focus();
                   return false;
                 }
-              })
-              .find("li")
-              .first()
-              .focus();
+              });
           },
 
           closeResults() {
@@ -319,6 +334,7 @@ $(document).ready(function() {
               // ADD A ROW AND FOCUS ON LAST ROW CREATED CODICE
               results.addRow();
               $(`#r${datiTableLength} .codice-field`).focus();
+              console.log(`Ingrediente ${ingredientSelected.formato} aggiunto`);
             });
             this.closeResults();
           },
@@ -333,7 +349,6 @@ $(document).ready(function() {
               if (codiceEl.val() != "") {
                 if (codiceEl.val().length > 2) {
                   let inputfieldVal = $(`#${rowId} .codice-field`).val();
-                  // $(`#${rowId} .codice-field`).val(inputfieldVal.toUpperCase());
                   this.resultsHeader(rowId);
                   this.loopThroughAllIngredients(codiceEl, "", rowId);
                   this.fillInputs(rowId);
@@ -346,9 +361,6 @@ $(document).ready(function() {
               if (descrizioneEl.val() != "") {
                 if (descrizioneEl.val().length > 2) {
                   let inputfieldVal = $(`#${rowId} .descrizione-field`).val();
-                  // $(`#${rowId} .descrizione-field`).val(
-                  //   inputfieldVal.toUpperCase()
-                  // );
                   this.resultsHeader(rowId);
                   this.loopThroughAllIngredients("", descrizioneEl, rowId);
                   this.fillInputs(rowId);
@@ -377,22 +389,10 @@ $(document).ready(function() {
           }
         };
 
-        // Select all value in an input value when clicked
-        /* function selectAll() {
-          $(`form input[type="text"]`).click(function(e) {
-            this.select();
-          });
-          $(`form input[type="number"]`).click(function(e) {
-            this.select();
-          });
-        }*/
-
         // Add row
         $("#aggiungi").click(function() {
           results.addRow();
-          // console.log($(`#r${datiTableLength} .codice-field`));
           $(`#r${datiTableLength} .codice-field`).focus();
-          // datiTableLength++;
         });
 
         // Results dropdown with codice field
