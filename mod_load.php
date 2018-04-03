@@ -23,9 +23,6 @@ require_once("../../fl_inc/headers.php");
 
 
 <div class="container" lang="en-US">
-     <div class="aggiungi msg green">
-      <label id="aggiungi" for=""><i  title="Aggiungi riga" class="fa fa-plus-circle"></i> Aggiungi</label>
-      </div>
 
   <form name="" method="POST" class="" action="mod_opera.php">
     <div class="dati-wrapper">
@@ -56,11 +53,11 @@ require_once("../../fl_inc/headers.php");
               <option value="KP">KP</option>
             </select>
           </td>
-          <td class="qty numero-field"><input class="qty-field" type="number" step="0.001" name="qty[]" value="1"></td>
-          <td class="prezzo numero-field"><input class="prezzo-field" step="0.001" type="number" name="prezzo[]" value="0.00"></td>
-          <td class="sc numero-field"><input class="sc-field" type="number" step="0.001" name="sc[]"  value="0.00"></td>
-          <td class="iva numero-field"><input class="iva-field" type="number" step="0.001" name="iva[]" value="0.00"></td>
-          <td class="importo numero-field"><input class="importo-field" step="0.001" type="number" name="importo[]" value="0.00" readonly></td>
+          <td class="qty numero-field"><input class="qty-field" type="number" step="any" name="qty[]" value="1"></td>
+          <td class="prezzo numero-field"><input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00"></td>
+          <td class="sc numero-field"><input class="sc-field" type="number" step="any" name="sc[]"  value="0.00"></td>
+          <td class="iva numero-field"><input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00"></td>
+          <td class="importo numero-field"><input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly></td>
           <th class="delete-row"></th>
         </tr>
       </table>
@@ -73,6 +70,9 @@ require_once("../../fl_inc/headers.php");
     <input type="hidden" name="doc_vendita" value="<?php echo $parent_id; ?>">
     <input type="hidden" name="ordine_id" value="<?php echo $order_id; ?>">
     <input type="hidden" name="multi_order" value="0">
+    <div class="aggiungi msg green">
+      <label id="aggiungi" for=""><i  title="Aggiungi riga" class="fa fa-plus"></i></label>
+    </div>
     <input id="submit" type="submit" value="Carica Voci" class="salva button">
 
   </form>

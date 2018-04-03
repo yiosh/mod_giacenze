@@ -6,29 +6,41 @@
   height: 100%;
 }
 
-.dati {
+/* .descrizione {
+  width: 80em;
+} */
+
+td.codice {
+  width: 10em;
+}
+
+td.numero-field {
+  width: 8em;
+}
+
+.codice-field,
+.descrizione-field {
+  text-transform: uppercase;
 }
 
 .dati-wrapper {
-  height: auto;
-  max-height: 90%;
   overflow-y: auto;
+  height: 65vh;
+  /* height: auto; */
+  max-height: 90%;
+  /*overflow-y: auto; */
 }
 
 .delete-row:before {
   font-size: 1.5em;
   font-family: FontAwesome;
   content: "\f014";
+  cursor: pointer;
 }
 
 #aggiungi {
   text-align: right;
 }
-
-/* input[type="submit"] {
-  margin-left: 1.9em;
-  margin-bottom: 2em;
-} */
 
 /* MODAL */
 .modal {
@@ -54,7 +66,7 @@
   width: 90%;
 }
 
-.results {
+#results-container {
   background-color: #fff;
   position: absolute;
   width: 95%;
@@ -65,10 +77,10 @@
 .row-result {
   padding: 1em;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: 0.5em;
   grid-auto-flow: column;
   text-align: left;
-  width: 100%;
   margin: 0;
 }
 
@@ -77,7 +89,11 @@
   margin: 0;
 }
 
-.row-result:hover:not(:first-child) {
+li.row-result:hover {
+  background-color: wheat;
+}
+
+li:focus {
   background-color: wheat;
 }
 
@@ -85,7 +101,7 @@
   background-color: wheat;
 }
 
-.row-result:first-child {
+div.row-result {
   padding: 0 1em;
   background-color: rgba(187, 184, 184, 0.952);
 }
@@ -94,7 +110,7 @@
   margin-top: 0;
   margin-bottom: 0;
   height: 100%;
-  width: 100%;
+  width: 5em;
 }
 
 #results {
@@ -111,10 +127,32 @@
   width: 5em;
 }
 
-.numero-field input {
-  width: 80px !important;
-}
+/* .numero-field {
+  min-width: 3em !important;
+  max-width: 5em !important;
+} */
 
 .highlight {
-  background-color: #3DA042
+  background-color: #3da042;
+}
+
+.aggiungi {
+  cursor: pointer;
+  display: flex;
+  margin: 1em auto;
+  border-radius: 50%;
+  width: 30px;
+  height: 28px;
+  font-size: 7px;
+  padding: 6px;
+  justify-content: center;
+}
+
+.aggiungi label {
+  font-size: 2em;
+  cursor: pointer;
+}
+
+p.descrizione {
+  width: 100%;
 }
