@@ -53,11 +53,11 @@ require_once("../../fl_inc/headers.php");
               <option value="KP">KP</option>
             </select>
           </td>
-          <td class="qty numero-field"><input class="qty-field" type="number" step="0.001" name="qty[]" value="1"></td>
-          <td class="prezzo numero-field"><input class="prezzo-field" step="0.001" type="number" name="prezzo[]" value="0.00"></td>
-          <td class="sc numero-field"><input class="sc-field" type="number" step="0.001" name="sc[]"  value="0.00"></td>
-          <td class="iva numero-field"><input class="iva-field" type="number" step="0.001" name="iva[]" value="0.00"></td>
-          <td class="importo numero-field"><input class="importo-field" step="0.001" type="number" name="importo[]" value="0.00" readonly></td>
+          <td class="qty numero-field"><input class="qty-field" type="number" step="any" name="qty[]" value="1"></td>
+          <td class="prezzo numero-field"><input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00"></td>
+          <td class="sc numero-field"><input class="sc-field" type="number" step="any" name="sc[]"  value="0.00"></td>
+          <td class="iva numero-field"><input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00"></td>
+          <td class="importo numero-field"><input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly></td>
           <th class="delete-row"></th>
         </tr>
       </table>
