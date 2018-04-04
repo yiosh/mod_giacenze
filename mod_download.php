@@ -25,7 +25,7 @@ include('load/last_open_orders.php');
 
 <div class="container" lang="en-US">
 
-  <form id="form" name="" method="POST" class="load" action="mod_opera.php" data-rel="<?php echo $multi_order ?>">
+  <form id="form"name="" method="POST" class="download" action="mod_opera.php" data-rel="<?php echo $multi_order ?>">
     <div class="dati-wrapper">
       <table id ="dati" class="dati" summary="Dati">
         <tr>
@@ -33,13 +33,11 @@ include('load/last_open_orders.php');
           <th>Descrizione</th>
           <th>UM</th>
           <th>QTY</th>
-          <th>Prezzo</th>
+          <!-- <th>Prezzo</th>
           <th>Sc. %</th>
           <th>IVA</th>
-          <th>Importo</th>
-          <?php if ($multi_order == 1) : ?>
-            <th>Ordine</th>
-          <?php endif ?>
+          <th>Importo</th> -->
+          <th>Evento ID</th>
           <th></th>
         </tr>
 
@@ -56,17 +54,28 @@ include('load/last_open_orders.php');
               <option value="KP">KP</option>
             </select>
           </td>
-          <td class="qty numero-field"><input class="qty-field" type="number" step="any" name="qty[]" value="1"></td>
-          <td class="prezzo numero-field"><input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00"></td>
-          <td class="sc numero-field"><input class="sc-field" type="number" step="any" name="sc[]"  value="0.00"></td>
-          <td class="iva numero-field"><input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00"></td>
-          <td class="importo numero-field"><input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly></td>
-          <?php if ($multi_order == 1) : ?>
-            <td class="multi-order numero-field">
-              <select class="mult-field" name="multi-order[]" id="">
-              </select>
-            </td>
-          <?php endif ?>
+          <td class="qty numero-field">
+            <input class="qty-field" type="number" step="any" name="qty[]" value="1">
+          </td>
+          <td class="prezzo numero-field" hidden>
+            <input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00">
+          </td>
+          <td class="sc numero-field" hidden>
+            <input class="sc-field" type="number" step="any" name="sc[]"  value="0.00">
+          </td>
+          <td class="iva numero-field" hidden>
+            <input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00">
+          </td>
+          <td class="importo numero-field" hidden>
+            <input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly>
+          </td>
+          
+          <td class="evento_id">
+            <select class="evento-field" name="evento_id[]" id="">
+ 
+            </select>
+          </td>
+
           <th class="delete-row"></th>
         </tr>
       </table>
@@ -82,7 +91,7 @@ include('load/last_open_orders.php');
     <div class="aggiungi msg green">
       <label id="aggiungi" for=""><i  title="Aggiungi riga" class="fa fa-plus"></i></label>
     </div>
-    <button id="submit" type="submit" class="salva button">Carica Voci</button>
+    <button id="submit" type="submit" class="salva button">Scaricare le Voci</button>
 
   </form>
 </div>

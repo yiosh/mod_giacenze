@@ -19,7 +19,7 @@ td.numero-field {
 }
 
 .codice-field,
-.descrizione-field {
+.portata-field {
   text-transform: uppercase;
 }
 
@@ -27,6 +27,10 @@ td.numero-field {
   overflow-y: auto;
   height: 65vh;
   max-height: 90%;
+}
+
+th.delete-row {
+  text-align: center;
 }
 
 .delete-row:before {
@@ -51,7 +55,7 @@ td.numero-field {
 .row-result {
   padding: 1em;
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-gap: 0.5em;
   grid-auto-flow: column;
   text-align: left;
@@ -124,7 +128,7 @@ td.um {
   cursor: pointer;
 }
 
-p.descrizione {
+p.portata {
   width: 100%;
 }
 
@@ -135,4 +139,8 @@ input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.evento-field {
+  width: 100%;
 }

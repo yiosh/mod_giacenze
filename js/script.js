@@ -30,7 +30,6 @@ $(document).ready(function() {
           let ingredient = {
             id: data.id,
             codice_fornitore: data.codice_fornitore,
-            // descrizione: data.descrizione,
             formato: data.descrizione + " " + data.formato,
             unita_di_misura_formato: data.unita_di_misura_formato,
             valore_di_conversione: data.valore_di_conversione,
@@ -78,7 +77,9 @@ $(document).ready(function() {
           addRow() {
             datiTableLength++;
             const rowId = `r${datiTableLength}`;
-            $("#dati tbody").append(`
+            const formEl = $("#form");
+            if (formEl.hasClass("download")) {
+              $("#dati tbody").append(`
 								<tr id="${rowId}">
 									<td class="codice"><input class="codice-field" type="text" name="codice[]" placeholder="Inserisci codice">
 									<input class="id-field" type="hidden" name="id[]"></td>
@@ -93,18 +94,58 @@ $(document).ready(function() {
                       <option value="KP">KP</option>
 										</select>
 									</td>
-									<td class="qty numero-field"><input class="qty-field" type="number" step="any" name="qty[]" value="1"></td>
-									<td class="prezzo numero-field"><input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00"></td>
-									<td class="sc numero-field"><input class="sc-field" type="number" step="any" name="sc[]" value="0.00"></td>
-									<td class="iva numero-field"><input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00"></td>
-									<td class="importo numero-field"><input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly></td>
+                  <td class="qty numero-field"><input class="qty-field" type="number" step="any" name="qty[]" value="1"></td>
+                  <td class="prezzo numero-field" hidden><input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00"></td>
+                  <td class="sc numero-field" hidden><input class="sc-field" type="number" step="any" name="sc[]" value="0.00"></td>
+                  <td class="iva numero-field" hidden><input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00"></td>
+                  <td class="importo numero-field" hidden><input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly></td>
+                  <td class="evento_id">
+                    <select class="evento-field" name="evento_id[]" id="">
+
+                    </select>
+                  </td>
 									<th class="delete-row"></th>
 								</tr>
-							`);
-            $(".dati-wrapper").animate(
-              { scrollTop: $(".dati-wrapper").height() },
-              "slow"
-            );
+              `);
+              this.eventi(rowId);
+            } else {
+              $("#dati tbody").append(`
+                  <tr id="${rowId}">
+                    <td class="codice"><input class="codice-field" type="text" name="codice[]" placeholder="Inserisci codice">
+                    <input class="id-field" type="hidden" name="id[]"></td>
+                    <td class="descrizione"><input class="descrizione-field" type="text" name="descrizione[]" placeholder="Inserisci Descrizione"></td>
+                    <td class="um">
+                      <select class="um-field" name="unita_di_misura[]" id="">
+                        <option value="KG">KG</option>
+                        <option value="LT">LT</option>
+                        <option value="PZ">PZ</option>
+                        <option value="BT">BT</option>
+                        <option value="CT">CT</option>
+                        <option value="KP">KP</option>
+                      </select>
+                    </td>
+                    <td class="qty numero-field"><input class="qty-field" type="number" step="any" name="qty[]" value="1"></td>
+                    <td class="prezzo numero-field"><input class="prezzo-field" step="any" type="number" name="prezzo[]" value="0.00"></td>
+                    <td class="sc numero-field"><input class="sc-field" type="number" step="any" name="sc[]" value="0.00"></td>
+                    <td class="iva numero-field"><input class="iva-field" type="number" step="any" min="0" name="iva[]" value="0.00"></td>
+                    <td class="importo numero-field"><input class="importo-field" step="any" type="number" name="importo[]" value="0.00" readonly></td>
+                    <th class="delete-row"></th>
+                  </tr>
+                `);
+              if ($("#form").attr("data-rel") > 0) {
+                $(`#${rowId} .delete-row`).before(`
+                      <td class="multi-order">
+                        <select class="mult-field" name="multi-order[]" id="">
+                        </select>
+                      </td>
+                      `);
+              }
+              this.lastOrders(rowId);
+              $(".dati-wrapper").animate(
+                { scrollTop: $(".dati-wrapper").height() },
+                "slow"
+              );
+            }
           },
 
           resultsHeader(rowId) {
@@ -389,11 +430,52 @@ $(document).ready(function() {
               codiceEl,
               descrizioneEl
             );
+          },
+
+          lastOrders(rowId) {
+            $.ajax({
+              type: "GET",
+              url: "load/last_open_orders.php",
+              success: function result(response) {
+                let lastOrders = JSON.parse(response);
+                $.each(lastOrders, function(index, order) {
+                  $(`#${rowId} .mult-field`).append(`
+                      <option value="${order}">${order}</option>
+                    `);
+                });
+                console.log(lastOrders);
+              },
+              error: function(errorMessage) {
+                console.error(errorMessage);
+              }
+            });
+          },
+
+          eventi(rowId) {
+            $.ajax({
+              type: "GET",
+              url: "load/get_eventi.php",
+              success: function result(response) {
+                let events = JSON.parse(response);
+                $.each(events, function(index, event) {
+                  $(`#${rowId} .evento-field`).append(`
+                      <option value="${event}">${event}</option>
+                    `);
+                });
+                console.log(events);
+              },
+              error: function(errorMessage) {
+                console.error(errorMessage);
+              }
+            });
           }
         };
 
+        results.lastOrders("r1");
+        results.eventi("r1");
+
         // Add row
-        $("#aggiungi").click(function() {
+        $(".aggiungi").click(function() {
           results.addRow();
           $(`#r${datiTableLength} .codice-field`).focus();
         });

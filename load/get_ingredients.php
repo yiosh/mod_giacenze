@@ -26,6 +26,7 @@ error_reporting(E_ALL);
   if (mysqli_num_rows($result) > 0) {
     // output data of each row
     while($row = mysqli_fetch_assoc($result)) {
+      $row['descrizione'] = html_entity_decode($row['descrizione']);
       $json[] = $row;
     }
     echo json_encode($json);
